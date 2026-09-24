@@ -31,7 +31,7 @@ and share it. `JaxRsAuthZClient` holds HTTP connections, so `close()` it when yo
 
 ## Building
 
-The SDK requires Java 8 or later. Build and run the tests with the Maven wrapper (no Maven installation needed):
+The SDK requires Java 17 or later. Build and run the tests with the Maven wrapper (no Maven installation needed):
 
 ```bash
 ./mvnw verify

@@ -3,9 +3,7 @@ package io.xacml.pep.json.client;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
@@ -57,7 +55,7 @@ public class StubPdp implements AutoCloseable {
     private void respond(String path, int status, String contentType, String body) {
         server.createContext(path, exchange -> {
             lastHeaders = exchange.getRequestHeaders();
-            lastBody = read(exchange.getRequestBody());
+            lastBody = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
             byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
             exchange.getResponseHeaders().add("Content-Type", contentType);
             exchange.sendResponseHeaders(status, bytes.length);
@@ -65,15 +63,6 @@ public class StubPdp implements AutoCloseable {
                 out.write(bytes);
             }
         });
-    }
-
-    private static String read(InputStream in) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buffer = new byte[4096];
-        for (int n; (n = in.read(buffer)) != -1; ) {
-            out.write(buffer, 0, n);
-        }
-        return new String(out.toByteArray(), StandardCharsets.UTF_8);
     }
 
     @Override
