@@ -177,12 +177,11 @@
     <properties>
         <!-- marshalling -->
         <jackson.version>2.22.3</jackson.version>
-        <!-- Jersey 3+ moves to the jakarta.ws.rs namespace, which would break this SDK's API; stay on the 2.x line. -->
-        <jersey.version>2.48</jersey.version>
+        <!-- Jersey 3.1 implements Jakarta REST 3.1 (Jakarta EE 10, jakarta.ws.rs namespace). -->
+        <jersey.version>3.1.12</jersey.version>
         <feign.version>13.15</feign.version>
         <swagger-annotations.version>1.6.16</swagger-annotations.version>
-        <!-- slf4j 2.x ignores 1.7-era bindings that many consumers still use. -->
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.20</slf4j.version>
         <junit.version>4.13.2</junit.version>
         <hamcrest.version>2.2</hamcrest.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>

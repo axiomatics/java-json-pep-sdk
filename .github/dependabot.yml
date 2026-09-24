@@ -10,13 +10,6 @@ updates:
         update-types:
           - minor
           - patch
-    ignore:
-      # Jersey 3+ moves to the jakarta.ws.rs namespace: a breaking change for this SDK's API.
-      - dependency-name: "org.glassfish.jersey*"
-        update-types: ["version-update:semver-major"]
-      # slf4j 2.x ignores the 1.7-era logging bindings that many consumers still use.
-      - dependency-name: "org.slf4j:slf4j-api"
-        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /

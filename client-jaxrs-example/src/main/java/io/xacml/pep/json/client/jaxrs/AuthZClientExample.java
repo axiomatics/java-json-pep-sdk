@@ -6,7 +6,7 @@ import io.xacml.pep.json.client.DefaultClientConfiguration;
 import io.xacml.pep.json.client.PDPConstants;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
-import javax.ws.rs.client.*;
+import jakarta.ws.rs.client.*;
 
 /**
  * This class contains sample code using JAX-RS to invoke a Policy Decision Point.
