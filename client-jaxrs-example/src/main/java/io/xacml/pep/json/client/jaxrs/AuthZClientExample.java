@@ -1,7 +1,6 @@
 package io.xacml.pep.json.client.jaxrs;
 
 import io.xacml.json.model.*;
-import io.xacml.pep.json.client.AuthZClient;
 import io.xacml.pep.json.client.ClientConfiguration;
 import io.xacml.pep.json.client.DefaultClientConfiguration;
 import io.xacml.pep.json.client.PDPConstants;
@@ -43,10 +42,12 @@ public class AuthZClientExample {
     }
 
     private static void callPDPWithJaxRsClient(ClientConfiguration clientConfiguration, Request request) {
-        AuthZClient authZClient = new JaxRsAuthZClient(clientConfiguration);
-        Response xacmlResponse = authZClient.makeAuthorizationRequest(request);
-        for (Result r : xacmlResponse.getResults()) {
-            System.out.println("Decision: " + r.getDecision());
+        // Create the client once and share it between threads; close it when the application shuts down.
+        try (JaxRsAuthZClient authZClient = new JaxRsAuthZClient(clientConfiguration)) {
+            Response xacmlResponse = authZClient.makeAuthorizationRequest(request);
+            for (Result r : xacmlResponse.getResults()) {
+                System.out.println("Decision: " + r.getDecision());
+            }
         }
     }
 

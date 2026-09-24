@@ -9,14 +9,16 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>client-feign-example</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>examples</name>
-    <url>http://maven.apache.org</url>
+    <properties>
+        <!-- Sample code: built and tested, but never published. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.xacml</groupId>
             <artifactId>json-pep-sdk-client-feign</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

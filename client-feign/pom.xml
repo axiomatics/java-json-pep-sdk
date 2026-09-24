@@ -9,14 +9,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>json-pep-sdk-client-feign</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>client-feign</name>
-    <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
             <groupId>io.xacml</groupId>
             <artifactId>json-pep-sdk-client-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -30,6 +28,13 @@
             <artifactId>feign-slf4j</artifactId>
             <version>${feign.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.xacml</groupId>
+            <artifactId>json-pep-sdk-client-core</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
