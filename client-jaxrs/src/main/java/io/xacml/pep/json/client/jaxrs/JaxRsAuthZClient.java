@@ -57,10 +57,12 @@ public class JaxRsAuthZClient implements AuthZClient, AutoCloseable {
      * Use {@link #JaxRsAuthZClient(WebTarget)} instead.
      */
     @Deprecated
-    public JaxRsAuthZClient(Invocation.Builder requestInvocationBuilder) {
-        this.authorizationServiceTarget = null;
-        this.requestInvocationBuilder = requestInvocationBuilder;
-        this.ownedClient = null;
+public JaxRsAuthZClient(Invocation.Builder requestInvocationBuilder) {
+    this.authorizationServiceTarget = null;
+    this.requestInvocationBuilder = Objects.requireNonNull(requestInvocationBuilder,
+            "Request invocation builder must be non-null");
+    this.ownedClient = null;
+}
     }
 
     public JaxRsAuthZClient(ClientConfiguration clientConfiguration) {
