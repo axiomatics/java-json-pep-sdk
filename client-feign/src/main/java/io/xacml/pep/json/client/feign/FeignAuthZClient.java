@@ -35,7 +35,9 @@ public class FeignAuthZClient implements AuthZClient {
                 .logger(new Slf4jLogger(FeignAuthZClient.class));
 
         // Enable, if needed, basic authentication
-        if (null != clientConfiguration.getUsername() && null != clientConfiguration.getPassword()) {
+        if (null != clientConfiguration.getUsername()) {
+            Objects.requireNonNull(clientConfiguration.getPassword(),
+                    "Client configuration must contain a password when a username is set");
             builder.requestInterceptor(
                     new BasicAuthRequestInterceptor(clientConfiguration.getUsername(), clientConfiguration.getPassword()));
         }

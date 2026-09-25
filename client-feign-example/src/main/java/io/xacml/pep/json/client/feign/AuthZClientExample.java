@@ -7,7 +7,7 @@ import io.xacml.pep.json.client.ClientConfiguration;
 import io.xacml.pep.json.client.DefaultClientConfiguration;
 
 /**
- * This class contains sample code using JAX-RS to invoke a Policy Decision Point.
+ * This class contains sample code using Feign to invoke a Policy Decision Point.
  * It supports both the JSON Profile of XACML 1.0 and 1.1.
  */
 public class AuthZClientExample {

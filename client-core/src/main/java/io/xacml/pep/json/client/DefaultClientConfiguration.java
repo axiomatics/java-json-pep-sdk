@@ -92,7 +92,14 @@ public class DefaultClientConfiguration implements ClientConfiguration {
     public String toString() {
         return "DefaultClientConfiguration(authorizationServiceUrl=" + this.authorizationServiceUrl
                 + ", username=" + this.getUsername()
-                + ", password=" + this.getPassword() + ")";
+                + ", password=" + mask(this.getPassword()) + ")";
+    }
+
+    /**
+     * Keeps credentials out of logs: only reveals whether a password is set.
+     */
+    static String mask(String secret) {
+        return secret == null ? null : "****";
     }
 
     public static class DefaultClientConfigurationBuilder {
@@ -104,6 +111,12 @@ public class DefaultClientConfiguration implements ClientConfiguration {
         DefaultClientConfigurationBuilder() {
         }
 
+        /**
+         * @deprecated appends {@link PDPConstants#AUTHORIZATION_ENDPOINT} to the given URL, which breaks deployments
+         * where the PDP sits behind a gateway with its own endpoint naming. Use {@link #authorizationServiceUrl(String)}
+         * with the full URL instead.
+         */
+        @Deprecated
         public DefaultClientConfigurationBuilder pdpUrl(String pdpUrl) {
             if (authorizationServiceUrl != null) {
                 throw new IllegalStateException("An authorization service URL has already been set using authorizationServiceUrl()." +
@@ -136,8 +149,8 @@ public class DefaultClientConfiguration implements ClientConfiguration {
             final String serviceUrl;
             if (authorizationServiceUrl == null && pdpUrl == null) {
                 throw new IllegalStateException("An authorization service URL has not been set." +
-                        " Set it using this.authorizationService(url) this.pdpUrl(url)." +
-                        " Prefer using authorizationService(url), since pdpUrl(url) is deprecated.");
+                        " Set it using authorizationServiceUrl(url) or pdpUrl(url)." +
+                        " Prefer using authorizationServiceUrl(url), since pdpUrl(url) is deprecated.");
             }
             if (authorizationServiceUrl == null) {
                 serviceUrl = pdpUrl + PDPConstants.AUTHORIZATION_ENDPOINT;
@@ -150,7 +163,7 @@ public class DefaultClientConfiguration implements ClientConfiguration {
         public String toString() {
             return "DefaultClientConfiguration.DefaultClientConfigurationBuilder(pdpUrl=" + this.pdpUrl
                     + ", authorizationServiceUrl=" + this.authorizationServiceUrl
-                    + ", username=" + this.username + ", password=" + this.password + ")";
+                    + ", username=" + this.username + ", password=" + mask(this.password) + ")";
         }
     }
 }

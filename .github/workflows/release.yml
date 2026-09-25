@@ -1,0 +1,47 @@
+name: Release
+
+# Push a tag such as v1.0.0 to publish that version to GitHub Packages and create a GitHub release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+          # Writes a settings.xml with a "github" server authenticated by GITHUB_TOKEN.
+          server-id: github
+
+      - name: Set the release version from the tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME is not of the form v<major>.<minor>.<patch>"
+            exit 1
+          fi
+          ./mvnw -B -ntp org.codehaus.mojo:versions-maven-plugin:2.22.0:set \
+            -DnewVersion="$VERSION" -DgenerateBackupPoms=false -DprocessAllModules=true
+
+      - name: Build, test and publish to GitHub Packages
+        run: >
+          ./mvnw -B -ntp -Prelease deploy
+          -DaltDeploymentRepository=github::https://maven.pkg.github.com/${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create the GitHub release
+        run: |
+          find . -path '*/target/json-pep-sdk-*.jar' ! -name '*-tests.jar' -print0 \
+            | xargs -0 gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

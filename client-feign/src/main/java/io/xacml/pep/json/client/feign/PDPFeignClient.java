@@ -5,7 +5,6 @@ import feign.RequestLine;
 import io.xacml.json.model.Request;
 import io.xacml.json.model.Response;
 
-import static io.xacml.pep.json.client.PDPConstants.AUTHORIZATION_ENDPOINT;
 import static io.xacml.pep.json.client.PDPConstants.CONTENT_TYPE;
 
 /**
